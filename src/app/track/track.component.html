@@ -1,0 +1,8 @@
+<div class="track" (click)="onClick(track.url)">
+  <div class="track-info">
+    <p class="track-info-song"><strong>{{ index + 1 }}. {{ track.name }}</strong></p>
+    <p class="track-info-artist">{{ track.artist }}</p>
+    ({{ track.listeners }} listeners)
+  </div>
+  <img alt="star" [src]="track.image[3]['#text']">
+</div>

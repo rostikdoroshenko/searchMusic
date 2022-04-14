@@ -1,0 +1,26 @@
+.search {
+  min-height: 686px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(168,66,66,1) 39%, rgba(252,176,69,1) 100%);
+
+  .loader {
+    margin: 0 auto;
+    height: 100vh;
+  }
+
+  .searchInput {
+    margin: 20px auto;
+
+    input {
+      width: 300px;
+    }
+  }
+
+  .results {
+    text-align: center;
+    ul li {
+      list-style-type: none;
+    }
+  }
+}

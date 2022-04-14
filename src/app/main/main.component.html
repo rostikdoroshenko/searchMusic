@@ -1,0 +1,14 @@
+<div class="main">
+  <h2>Top Tracks</h2>
+  <ul *ngIf="!isLoading; else loader">
+    <li *ngFor="let el of topTracks; index as i">
+      <app-track
+        [track]="el"
+        [index]="i"
+      ></app-track>
+    </li>
+  </ul>
+  <ng-template #loader>
+    <app-loader class="loader"></app-loader>
+  </ng-template>
+</div>

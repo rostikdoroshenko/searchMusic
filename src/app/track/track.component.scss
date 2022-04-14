@@ -1,0 +1,27 @@
+.track {
+  width: 520px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  margin: 10px auto;
+  cursor: pointer;
+  transition: background-color .5s ease-in-out;
+
+  &-info {
+    width: 400px;
+    margin-left: 20px;
+
+    &-song {
+      font-size: 20px;
+    }
+  }
+
+  &:hover {
+    background: #eae2e2;
+  }
+
+  img {
+    height: 120px;
+    margin-left: auto;
+  }
+}

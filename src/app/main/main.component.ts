@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LastFmService } from "../services/lastFm.service";
-import { TopTracksList, Track } from "../interfaces/interface";
-import {delay, takeUntil} from "rxjs/operators";
-import {Subject} from "rxjs";
+import { Track } from "../interfaces/interface";
+import { delay, map, takeUntil } from "rxjs/operators";
+import { Subject } from "rxjs";
 
 @Component({
   selector: 'app-main',
@@ -29,12 +29,15 @@ export class MainComponent implements OnInit, OnDestroy {
   getTopTracks() {
     return this.lastFmService.getTopTracks()
       .pipe(
+        map(data => data.tracks?.track),
         delay(1000),
         takeUntil(this.destroy)
-      ).subscribe((data: TopTracksList) => {
-      this.topTracks = data.tracks?.track;
-      this.topTracks?.map(track => track.artist = track.artist.name).sort((a, b) => b.listeners - a.listeners);
-      this.isLoading = false;
-    });
+      ).subscribe((tracks: Track[]) => {
+        this.topTracks = tracks;
+        this.topTracks
+          .map(track => track.artist = track.artist.name)
+          .sort((a, b) => b.listeners - a.listeners);
+        this.isLoading = false;
+      });
   }
 }

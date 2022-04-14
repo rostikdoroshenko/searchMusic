@@ -10,6 +10,10 @@ export class TrackComponent {
   @Input() track!: Track;
   @Input() index!: number;
 
+  get number(): number {
+    return this.index + 1;
+  }
+
   onClick(link: string) {
     window.open(link);
   }

@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LastFmService } from '../services/lastFm.service';
 import { FormControl, FormGroup } from "@angular/forms";
-import { SearchResults, Track } from "../interfaces/interface";
-import {Subject} from "rxjs";
-import {takeUntil} from "rxjs/operators";
+import { Track } from "../interfaces/interface";
+import { Subject} from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
 
 @Component({
   selector: 'app-search',
@@ -12,7 +12,7 @@ import {takeUntil} from "rxjs/operators";
 })
 export class SearchComponent implements OnInit, OnDestroy {
   searchForm!: FormGroup;
-  searchedTracks: Track[] = [];
+  searchTracksList: Track[] = [];
   isPending: boolean = false;
   isLoaded: boolean = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -32,11 +32,14 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.isPending = true;
-    const inputValue = this.searchForm.controls['searchControl'].value;
-    this.lastFmService.getSearchedTracks(inputValue).pipe(takeUntil(this.destroy)).subscribe(
-      // @ts-ignore
-      (data: SearchResults) => {
-        this.searchedTracks = data.results.trackmatches.track;
+    const inputValue: string = this.searchForm.controls['searchControl'].value;
+    this.lastFmService.getSearchedTracks(inputValue)
+      .pipe(
+        map(data => data.results.trackmatches.track),
+        takeUntil(this.destroy)
+      ).subscribe(
+      (tracks: Track[]) => {
+        this.searchTracksList = tracks;
         this.isPending = false;
         this.isLoaded = true;
       }

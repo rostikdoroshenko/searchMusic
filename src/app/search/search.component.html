@@ -1,16 +1,15 @@
 <div class="search">
   <div class="searchInput">
     <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-      <label for="searchInput">Search...</label>
+      <h2 *ngIf="!isLoaded">Please, enter a song or singer name</h2>
       <input type="text" id="searchInput" formControlName="searchControl">
-      <button type="submit">search</button>
+      <button type="submit" [disabled]="!searchForm.controls['searchControl'].value">search</button>
     </form>
   </div>
   <div class="results" *ngIf="!isPending; else loader">
-    <h2 *ngIf="!isLoaded">Please, enter a song or singer name</h2>
-    <h2 *ngIf="isLoaded">Found {{ searchedTracks.length }} results</h2>
+    <h2 *ngIf="isLoaded">Found {{ searchTracksList.length }} results</h2>
     <ul>
-      <li *ngFor="let el of searchedTracks; index as i">
+      <li *ngFor="let el of searchTracksList; index as i">
         <app-track
           [track]="el"
           [index]="i"

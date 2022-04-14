@@ -1,7 +1,14 @@
-export interface TopTracksList {
-  tracks?: {
-    track: Track[],
-    //attr: {}
+export interface TopTracks {
+  tracks: {
+    track: Track[]
+  }
+}
+
+export interface SearchTracks {
+  results: {
+    trackmatches: {
+      track: Track[]
+    }
   }
 }
 
@@ -21,14 +28,6 @@ export interface Artist {
   mbid: string,
   name: string,
   url: string
-}
-
-export interface SearchResults {
-  results: {
-    trackmatches: {
-      track: Track[]
-    }
-  }
 }
 
 export interface Image {

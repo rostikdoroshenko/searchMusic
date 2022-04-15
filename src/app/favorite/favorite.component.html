@@ -1,0 +1,17 @@
+<div class="favorite">
+  <h2>Favorite Tracks</h2>
+  <ul *ngIf="favoriteTracks; else noFavorite">
+    <li *ngFor="let el of favoriteTracks; index as i">
+      <app-track
+        [track]="el"
+        [index]="i"
+        (handleClick)="addOrDeleteFavorite()"
+      ></app-track>
+    </li>
+  </ul>
+  <ng-template #noFavorite>
+    <h2 class="no-favorite">
+      Please add songs to favorite.
+    </h2>
+  </ng-template>
+</div>

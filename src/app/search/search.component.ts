@@ -1,14 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LastFmService } from '../services/lastFm.service';
-import { FormControl, FormGroup } from "@angular/forms";
-import { Track } from "../interfaces/interface";
-import { Subject} from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {LastFmService} from '../services/lastFm.service';
+import {FormControl, FormGroup} from "@angular/forms";
+import {Track} from "../interfaces/interface";
+import {Subject} from "rxjs";
+import {map, takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent implements OnInit, OnDestroy {
   searchForm!: FormGroup;
@@ -17,7 +18,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   isLoaded: boolean = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private lastFmService: LastFmService) { }
+  constructor(private lastFmService: LastFmService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.searchForm = new FormGroup({
@@ -42,6 +43,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.searchTracksList = tracks;
         this.isPending = false;
         this.isLoaded = true;
+        this.cdr.detectChanges();
       }
     );
   }

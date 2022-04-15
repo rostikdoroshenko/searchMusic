@@ -10,6 +10,7 @@ import { MainComponent } from './main/main.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { LoaderComponent } from './loader/loader.component';
 import { TrackComponent } from './track/track.component';
+import { FavoriteComponent } from './favorite/favorite.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { TrackComponent } from './track/track.component';
     SearchComponent,
     MainComponent,
     LoaderComponent,
-    TrackComponent
+    TrackComponent,
+    FavoriteComponent
   ],
   imports: [
     BrowserModule,

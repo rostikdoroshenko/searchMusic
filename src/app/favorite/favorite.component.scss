@@ -1,0 +1,21 @@
+.favorite {
+  min-height: 686px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(90deg, rgb(69, 127, 140) 0%, rgb(168, 92, 92) 39%, rgb(164, 139, 103) 100%);
+
+  .no-favorite {
+    margin: 40px auto;
+    height: 100vh;
+    text-align: center;
+    font-size: 20px;
+  }
+
+  h2, ul {
+    text-align: center;
+  }
+
+  ul li {
+    list-style-type: none;
+  }
+}

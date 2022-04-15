@@ -1,13 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LastFmService } from "../services/lastFm.service";
-import { Track } from "../interfaces/interface";
-import { delay, map, takeUntil } from "rxjs/operators";
-import { Subject } from "rxjs";
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {LastFmService} from "../services/lastFm.service";
+import {Track} from "../interfaces/interface";
+import {delay, map, takeUntil} from "rxjs/operators";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit, OnDestroy {
   topTracks: Track[] | undefined = [];
@@ -30,7 +30,7 @@ export class MainComponent implements OnInit, OnDestroy {
     return this.lastFmService.getTopTracks()
       .pipe(
         map(data => data.tracks?.track),
-        delay(1000),
+        delay(500),
         takeUntil(this.destroy)
       ).subscribe((tracks: Track[]) => {
         this.topTracks = tracks;

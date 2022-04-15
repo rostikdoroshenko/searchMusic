@@ -1,8 +1,8 @@
-<div class="track" (click)="onClick(track.url)">
-  <div class="track-info">
+<div class="track">
+  <div class="track-info" (click)="onClick(track.url)">
     <p class="track-info-song"><strong>{{ number }}. {{ track.name }}</strong></p>
     <p class="track-info-artist">{{ track.artist }}</p>
     ({{ track.listeners }} listeners)
   </div>
-  <img alt="star" [src]="track.image[3]['#text']">
+  <img alt="star" [src]="track.image[3]['#text']" (click)="addToFavorite(track)">
 </div>

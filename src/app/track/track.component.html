@@ -1,8 +1,10 @@
-<div class="track">
+<div class="track"
+  [ngClass]="{'--active': isUrlEqual(track.url)}"
+>
   <div class="track-info" (click)="onClick(track.url)">
     <p class="track-info-song"><strong>{{ number }}. {{ track.name }}</strong></p>
     <p class="track-info-artist">{{ track.artist }}</p>
-    ({{ track.listeners }} listeners)
+    <p class="track-info-listeners">({{ track.listeners }} listeners)</p>
   </div>
-  <img alt="star" [src]="track.image[3]['#text']" (click)="addToFavorite(track)">
+  <img alt="star" [src]="track.image" (click)="editFavorite(track)">
 </div>

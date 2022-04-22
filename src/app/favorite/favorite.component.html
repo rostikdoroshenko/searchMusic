@@ -1,17 +1,22 @@
 <div class="favorite">
   <h2>Favorite Tracks</h2>
-  <ul *ngIf="favoriteTracks; else noFavorite">
-    <li *ngFor="let el of favoriteTracks; index as i">
-      <app-track
-        [track]="el"
-        [index]="i"
-        (handleClick)="addOrDeleteFavorite()"
-      ></app-track>
-    </li>
-  </ul>
-  <ng-template #noFavorite>
-    <h2 class="no-favorite">
-      Please add songs to favorite.
-    </h2>
+  <div *ngIf="!isLoading; else loader">
+    <ul *ngIf="favoriteTracks$ | async as favoriteTracks; else nofavorite">
+      <li *ngFor="let el of favoriteTracks; index as i">
+        <app-track
+          [track]="el"
+          [index]="i"
+          (handleClick)="updateFavoriteList($event)"
+        ></app-track>
+      </li>
+    </ul>
+    <ng-template #nofavorite>
+      <h2 class="no-favorite">
+        Please add songs to favorite.
+      </h2>
+    </ng-template>
+  </div>
+  <ng-template #loader>
+    <app-loader class="loader"></app-loader>
   </ng-template>
 </div>

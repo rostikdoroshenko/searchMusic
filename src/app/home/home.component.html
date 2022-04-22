@@ -1,10 +1,11 @@
-<div class="main">
+<div class="home">
   <h2>Top Tracks</h2>
-  <ul *ngIf="!isLoading; else loader">
+  <ul *ngIf="topTracks$ | async as topTracks; else loader">
     <li *ngFor="let el of topTracks; index as i">
       <app-track
         [track]="el"
         [index]="i"
+        (handleClick)="updateFavoriteList($event)"
       ></app-track>
     </li>
   </ul>

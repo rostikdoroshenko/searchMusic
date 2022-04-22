@@ -2,7 +2,8 @@
   min-height: 686px;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(90deg, rgb(69, 127, 140) 0%, rgb(168, 92, 92) 39%, rgb(164, 139, 103) 100%);
+  padding-top: 100px;
+  background: linear-gradient(90deg, rgb(69, 127, 140) 0%, rgb(171, 118, 118) 39%, rgb(164, 139, 103) 100%);
 
   .no-favorite {
     margin: 40px auto;
@@ -11,8 +12,14 @@
     font-size: 20px;
   }
 
+  .loader {
+    margin: 0 auto;
+    height: 100vh;
+  }
+
   h2, ul {
     text-align: center;
+    padding: 20px;
   }
 
   ul li {

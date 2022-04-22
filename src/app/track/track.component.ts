@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Track } from "../interfaces/interface";
-import {LocalStorageService} from "../services/local-storage.service";
+import { FavoriteTracksService } from "../services/favorite-tracks.service";
 
 @Component({
   selector: 'app-track',
@@ -12,19 +12,22 @@ export class TrackComponent {
   @Input() index!: number;
   @Output() handleClick: EventEmitter<any> = new EventEmitter();
 
-  constructor(private localStorageService: LocalStorageService) {
+  constructor(private favoriteTracksService: FavoriteTracksService) {
   }
 
   get number(): number {
     return this.index + 1;
   }
 
-  onClick(link: string) {
+  isUrlEqual(url: string): boolean {
+    return this.favoriteTracksService.isUrlEqual(url);
+  }
+
+  onClick(link: string): void {
     window.open(link);
   }
 
-  addToFavorite(track: Track) {
-    this.localStorageService.setTracksToStorage(track);
-    this.handleClick.emit();
+  editFavorite(track: Track): void {
+    this.handleClick.emit(track);
   }
 }

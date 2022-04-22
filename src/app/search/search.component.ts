@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {LastFmService} from '../services/lastFm.service';
-import {FormControl, FormGroup} from "@angular/forms";
-import {Track} from "../interfaces/interface";
-import {Subject} from "rxjs";
-import {map, takeUntil} from "rxjs/operators";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from "@angular/forms";
+import { Observable, Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import { FavoriteTracksService } from "../services/favorite-tracks.service";
+import { LastFmService } from '../services/lastFm.service';
+import { Track } from "../interfaces/interface";
 
 @Component({
   selector: 'app-search',
@@ -12,37 +13,43 @@ import {map, takeUntil} from "rxjs/operators";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent implements OnInit, OnDestroy {
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   searchForm!: FormGroup;
-  searchTracksList: Track[] = [];
-  isPending: boolean = false;
-  isLoaded: boolean = false;
-  private destroy: Subject<boolean> = new Subject<boolean>();
+  isLoading: boolean = false;
+  searchTracksList$!: Observable<Track[]>;
 
-  constructor(private lastFmService: LastFmService, private cdr: ChangeDetectorRef) { }
+  constructor(
+    private lastFmService: LastFmService,
+    private cdr: ChangeDetectorRef,
+    private favoriteTracksService: FavoriteTracksService
+  ) { }
 
   ngOnInit(): void {
+    this.initForm();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  updateFavoriteList(track: Track) {
+    this.favoriteTracksService.updateFavorites(track).pipe(takeUntil(this.destroy$)).subscribe();
+  }
+
+  initForm() {
     this.searchForm = new FormGroup({
       'searchControl': new FormControl(null)
     });
   }
 
-  ngOnDestroy() {
-    this.destroy.next();
-    this.destroy.unsubscribe();
-  }
-
   onSubmit() {
-    this.isPending = true;
+    this.isLoading = true;
     const inputValue: string = this.searchForm.controls['searchControl'].value;
-    this.lastFmService.getSearchedTracks(inputValue)
-      .pipe(
-        map(data => data.results.trackmatches.track),
-        takeUntil(this.destroy)
-      ).subscribe(
-      (tracks: Track[]) => {
-        this.searchTracksList = tracks;
-        this.isPending = false;
-        this.isLoaded = true;
+    this.searchTracksList$ = this.lastFmService.getSearchedTracks(inputValue);
+    this.searchTracksList$.pipe(takeUntil(this.destroy$)).subscribe(
+      () => {
+        this.isLoading = false;
         this.cdr.detectChanges();
       }
     );

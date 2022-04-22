@@ -2,7 +2,12 @@
   min-height: 686px;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(168,66,66,1) 39%, rgba(252,176,69,1) 100%);
+  padding-top: 100px;
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgb(147, 85, 85) 39%, rgba(252,176,69,1) 100%);
+
+  h2 {
+    padding: 20px;
+  }
 
   .loader {
     margin: 0 auto;

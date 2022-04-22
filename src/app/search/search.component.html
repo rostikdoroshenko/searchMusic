@@ -1,23 +1,22 @@
 <div class="search">
   <div class="searchInput">
     <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-      <h2 *ngIf="!isLoaded">Please, enter a song or singer name</h2>
+      <h2 *ngIf="!searchTracksList$">Please, enter a song or singer name</h2>
       <input type="text" id="searchInput" formControlName="searchControl">
       <button type="submit" [disabled]="!searchForm.controls['searchControl'].value">search</button>
     </form>
   </div>
-  <div class="results" *ngIf="!isPending; else loader">
-    <h2 *ngIf="isLoaded">Found {{ searchTracksList.length }} results</h2>
+  <div class="results" *ngIf="searchTracksList$ | async as searchTracksList">
+    <h2 *ngIf="searchTracksList$">Found {{ searchTracksList.length }} results</h2>
     <ul>
       <li *ngFor="let el of searchTracksList; index as i">
         <app-track
           [track]="el"
           [index]="i"
+          (handleClick)="updateFavoriteList($event)"
         ></app-track>
       </li>
     </ul>
   </div>
-  <ng-template #loader>
-    <app-loader class="loader"></app-loader>
-  </ng-template>
+  <app-loader *ngIf="isLoading" class="loader"></app-loader>
 </div>

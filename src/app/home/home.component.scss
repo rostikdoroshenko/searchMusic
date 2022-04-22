@@ -1,9 +1,10 @@
-.main {
+.home {
+  padding-top: 100px;
   display: flex;
   height: 100%;
   flex-direction: column;
   justify-content: center;
-  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(150,150,171,1) 35%, rgba(0,212,255,1) 100%);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(150,150,171,1) 35%, rgb(0, 255, 208) 100%);
 
   .loader {
     margin: 0 auto;
@@ -12,6 +13,7 @@
 
   h2, ul {
     text-align: center;
+    padding: 20px;
   }
 
   ul li {

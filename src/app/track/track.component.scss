@@ -4,15 +4,25 @@
   display: flex;
   justify-content: center;
   margin: 10px auto;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color .5s ease-in-out;
+
+  &.--active {
+    background: rgba(70, 86, 245, 0.41);
+  }
 
   &-info {
     width: 400px;
     margin-left: 20px;
 
-    &-song {
+    &-song,  {
       font-size: 20px;
+      padding: 10px;
+    }
+
+    &-artist, &-listeners {
+      padding: 10px;
     }
   }
 
@@ -20,8 +30,21 @@
     background: #eae2e2;
   }
 
+  &:active {
+    transform: scale(1.05);
+  }
+
   img {
     height: 120px;
     margin-left: auto;
+    border-radius: 5px;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
   }
 }

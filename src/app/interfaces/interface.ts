@@ -17,11 +17,11 @@ export interface Track {
   duration: string,
   playcount: string,
   artist: Artist | string | any,
-  listeners: string,
+  listeners: any,
   mbid: string,
-  streamable: {},
+  streamable?: any,
   url: string,
-  image: Image[]
+  image: any
 }
 
 export interface Artist {
@@ -31,6 +31,6 @@ export interface Artist {
 }
 
 export interface Image {
-  '#text': string,
+  '#text': string | Image,
   size: string
 }

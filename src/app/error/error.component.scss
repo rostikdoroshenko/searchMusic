@@ -1,0 +1,29 @@
+.error {
+  background: #ea3636;
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  margin: 20px;
+  opacity: 0;
+  border-radius: 4px;
+
+  animation-name: fadeInOut;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: 10s;
+  animation-direction: alternate;
+
+  p {
+    margin: 10px;
+  }
+}
+
+@keyframes fadeInOut {
+  25% {
+    opacity:1;
+  }
+  75% {
+    opacity:0;
+  }
+}

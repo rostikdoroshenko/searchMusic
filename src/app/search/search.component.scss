@@ -1,8 +1,7 @@
+@use "src/assets/mixins/mixins";
+
 .search {
-  min-height: 686px;
-  display: flex;
-  flex-direction: column;
-  padding-top: 100px;
+  @include mixins.page;
   background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgb(147, 85, 85) 39%, rgba(252,176,69,1) 100%);
 
   h2 {

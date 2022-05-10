@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FavoriteTracksService} from "./services/favorite-tracks.service";
+import { FavoriteTracksService } from "./services/favorite-tracks.service";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import {FavoriteTracksService} from "./services/favorite-tracks.service";
 export class AppComponent implements OnInit {
   title = 'searchMusic';
 
-  constructor(private favoriteService: FavoriteTracksService) {
+  constructor(public favoriteService: FavoriteTracksService) {
   }
 
   ngOnInit() {

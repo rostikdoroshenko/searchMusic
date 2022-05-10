@@ -1,9 +1,7 @@
+@use "src/assets/mixins/mixins";
+
 .home {
-  padding-top: 100px;
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  justify-content: center;
+  @include mixins.page;
   background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(150,150,171,1) 35%, rgb(0, 255, 208) 100%);
 
   .loader {

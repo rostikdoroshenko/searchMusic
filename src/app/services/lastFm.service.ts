@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SearchTracks, TopTracks } from "../interfaces/interface";
-import { map } from "rxjs/operators";
+import { SearchTracks, TopTracks, Track } from "../interfaces/interface";
+import { catchError, map } from "rxjs/operators";
+import { FavoriteTracksService } from "./favorite-tracks.service";
 
 @Injectable()
 export class LastFmService {
@@ -9,7 +10,7 @@ export class LastFmService {
   readonly limit: string = 'limit=10';
   private apiKey: string = '21861bfc40e3a5164b1d4652b9b5f65f';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private favoriteTracksService: FavoriteTracksService) { }
 
   getSearchedTracks(track: string) {
     return this.http
@@ -22,8 +23,9 @@ export class LastFmService {
             track.image = track.image[3]["#text"];
             delete track.streamable;
             return track;
-          })
-        )
+          }),
+        ),
+        catchError(this.favoriteTracksService.handleError<Track[]>([]))
       );
   }
 
@@ -40,6 +42,7 @@ export class LastFmService {
             delete track.streamable;
             return track;
           })),
+        catchError(this.favoriteTracksService.handleError<Track[]>([]))
       );
   }
 }

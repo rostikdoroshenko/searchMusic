@@ -29,17 +29,21 @@ export class FavoriteComponent implements OnDestroy, OnInit {
     this.isLoading = true;
     this.favoriteTracks$ = this.favoriteTracksService.getData();
     this.favoriteTracks$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
+      .pipe(
+        takeUntil(this.destroy$)
+      ).subscribe(() => {
         this.isLoading = false;
-    });
+      }, error => {
+        this.isLoading = false;
+      });
   }
 
   updateFavoriteList(track: Track) {
     this.favoriteTracksService.updateFavorites(track)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
+      .pipe(
+        takeUntil(this.destroy$)
+      ).subscribe(() => {
         this.getFavorites();
-    });
+      });
   }
 }

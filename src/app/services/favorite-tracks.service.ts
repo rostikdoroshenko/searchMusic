@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Track } from "../interfaces/interface";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, of, Subject } from "rxjs";
+import { catchError } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { Observable } from "rxjs";
 export class FavoriteTracksService {
   private readonly favoriteTracksURL: string = 'https://favorite-tracks-default-rtdb.europe-west1.firebasedatabase.app/tracks.json';
   favoriteTracks: Track[] = [];
+  error$: Subject<string> = new Subject<string>();
 
   constructor(private http: HttpClient) {}
 
@@ -25,10 +27,23 @@ export class FavoriteTracksService {
   }
 
   getData(): Observable<Track[]> {
-    return this.http.get<Track[]>(this.favoriteTracksURL);
+    return this.http.get<Track[]>(this.favoriteTracksURL)
+      .pipe(
+        catchError(this.handleError<Track[]>([]))
+      );
   }
 
   updateData(data: any): Observable<Track[]> {
-    return this.http.put<Track[]>(this.favoriteTracksURL, data);
+    return this.http.put<Track[]>(this.favoriteTracksURL, data)
+      .pipe(
+        catchError(this.handleError<Track[]>([]))
+    );
+  }
+
+  handleError<T>(result?: T) {
+    return (error: any): Observable<T> => {
+      this.error$.next(error);
+      return of(result as T);
+    }
   }
 }

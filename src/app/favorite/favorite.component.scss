@@ -1,8 +1,7 @@
+@use "src/assets/mixins/mixins";
+
 .favorite {
-  min-height: 686px;
-  display: flex;
-  flex-direction: column;
-  padding-top: 100px;
+  @include mixins.page;
   background: linear-gradient(90deg, rgb(69, 127, 140) 0%, rgb(171, 118, 118) 39%, rgb(164, 139, 103) 100%);
 
   .no-favorite {

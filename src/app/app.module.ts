@@ -10,6 +10,8 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { LoaderComponent } from './loader/loader.component';
 import { TrackComponent } from './track/track.component';
 import { FavoriteComponent } from './favorite/favorite.component';
+import { ErrorComponent } from './error/error.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -19,12 +21,14 @@ import { FavoriteComponent } from './favorite/favorite.component';
     LoaderComponent,
     TrackComponent,
     FavoriteComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NoopAnimationsModule
   ],
   providers: [LastFmService],
   bootstrap: [AppComponent]

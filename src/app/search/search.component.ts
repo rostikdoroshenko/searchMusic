@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from "@angular/forms";
+import { UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 import { Observable, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { FavoriteTracksService } from "../services/favorite-tracks.service";
@@ -14,7 +14,7 @@ import { Track } from "../interfaces/interface";
 })
 export class SearchComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  searchForm!: FormGroup;
+  searchForm!: UntypedFormGroup;
   isLoading: boolean = false;
   searchTracksList$!: Observable<Track[]>;
 
@@ -38,8 +38,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    this.searchForm = new FormGroup({
-      'searchControl': new FormControl(null)
+    this.searchForm = new UntypedFormGroup({
+      'searchControl': new UntypedFormControl(null)
     });
   }
 

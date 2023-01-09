@@ -1,37 +1,33 @@
-import {Component, OnDestroy, OnInit } from '@angular/core';
-import { LastFmService } from "../services/lastFm.service";
+import {Component, OnInit } from '@angular/core';
 import { Track } from "../interfaces/interface";
-import { takeUntil } from "rxjs/operators";
-import {Observable, Subject } from "rxjs";
-import { FavoriteTracksService } from "../services/favorite-tracks.service";
+import {Observable } from "rxjs";
+import {actions} from "../store/actions";
+import {Store} from "@ngrx/store";
+import {AppFacade} from "../store/facade";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   topTracks$!: Observable<Track[]>;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private lastFmService: LastFmService,
-    private favoriteTracksService: FavoriteTracksService) { }
+    private store: Store,
+    public appFacade: AppFacade) {
+    this.topTracks$ = this.appFacade.getTopTracks$;
+  }
 
   ngOnInit(): void {
     this.getTopTracks();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   updateFavoriteList(track: Track): void {
-    this.favoriteTracksService.updateFavorites(track).pipe(takeUntil(this.destroy$)).subscribe();
+    this.store.dispatch(actions.updateFavorite({track}));
   }
 
   getTopTracks(): void {
-    this.topTracks$ = this.lastFmService.getTopTracks();
+    this.store.dispatch(actions.loadTopTracks());
   }
 }

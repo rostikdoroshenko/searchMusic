@@ -7,7 +7,7 @@
     </form>
   </div>
   <div class="results" *ngIf="searchTracksList$ | async as searchTracksList">
-    <h2 *ngIf="searchTracksList$">Found {{ searchTracksList.length }} results</h2>
+    <h2 *ngIf="appFacade.isSearchedTracksLoaded$ | async">Found {{ searchTracksList.length }} results</h2>
     <ul>
       <li *ngFor="let el of searchTracksList; index as i">
         <app-track
@@ -18,5 +18,5 @@
       </li>
     </ul>
   </div>
-  <app-loader *ngIf="isLoading" class="loader"></app-loader>
+  <app-loader *ngIf="appFacade.isSearchedTracksLoading$ | async" class="loader"></app-loader>
 </div>

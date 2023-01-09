@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Track } from "../interfaces/interface";
-import { FavoriteTracksService } from "../services/favorite-tracks.service";
+import {Store} from "@ngrx/store";
+import {isUrlEqual} from "../store/selectors";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-track',
@@ -12,15 +14,14 @@ export class TrackComponent {
   @Input() index!: number;
   @Output() handleClick: EventEmitter<any> = new EventEmitter();
 
-  constructor(private favoriteTracksService: FavoriteTracksService) {
-  }
+  constructor(public store: Store) {}
 
   get number(): number {
     return this.index + 1;
   }
 
-  isUrlEqual(url: string): boolean {
-    return this.favoriteTracksService.isUrlEqual(url);
+  isUrlEqual(url: string): Observable<boolean> {
+    return this.store.select(isUrlEqual(url));
   }
 
   onClick(link: string): void {

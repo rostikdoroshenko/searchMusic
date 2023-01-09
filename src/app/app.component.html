@@ -1,5 +1,5 @@
 <div class="app">
-  <app-error *ngIf="favoriteService.error$ | async"></app-error>
+  <app-error *ngIf="appFacade.favoriteError$ | async"></app-error>
   <ul>
     <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/">Home</a></li>
     <li routerLinkActive="active"><a routerLink="/search">Search</a></li>

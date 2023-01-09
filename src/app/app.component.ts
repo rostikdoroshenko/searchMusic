@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { FavoriteTracksService } from "./services/favorite-tracks.service";
+import {Store} from "@ngrx/store";
+import {actions} from "./store/actions";
+import {AppFacade} from "./store/facade";
 
 @Component({
   selector: 'app-root',
@@ -7,14 +9,11 @@ import { FavoriteTracksService } from "./services/favorite-tracks.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'searchMusic';
 
-  constructor(public favoriteService: FavoriteTracksService) {
+  constructor(private store: Store, public appFacade: AppFacade) {
   }
 
   ngOnInit() {
-    this.favoriteService.getData().subscribe(data => {
-      this.favoriteService.favoriteTracks = data || [];
-    });
+    this.store.dispatch(actions.loadFavorite());
   }
 }

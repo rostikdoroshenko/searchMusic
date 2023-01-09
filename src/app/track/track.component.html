@@ -1,5 +1,5 @@
 <div class="track"
-  [ngClass]="{'--active': isUrlEqual(track.url)}"
+  [ngClass]="{'--active': isUrlEqual(track.url) | async}"
 >
   <div class="track-info" (click)="onClick(track.url)">
     <p class="track-info-song"><strong>{{ number }}. {{ track.name }}</strong></p>

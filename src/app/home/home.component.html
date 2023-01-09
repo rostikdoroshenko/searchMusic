@@ -1,15 +1,20 @@
 <div class="home">
   <h2>Top Tracks</h2>
-  <ul *ngIf="topTracks$ | async as topTracks; else loader">
-    <li *ngFor="let el of topTracks; index as i">
-      <app-track
-        [track]="el"
-        [index]="i"
-        (handleClick)="updateFavoriteList($event)"
-      ></app-track>
-    </li>
-  </ul>
-  <ng-template #loader>
-    <app-loader class="loader"></app-loader>
-  </ng-template>
+  <div *ngIf="topTracks$ | async as topTracks">
+    <ul *ngIf="topTracks.length">
+      <li *ngFor="let el of topTracks; index as i">
+        <app-track
+          [track]="el"
+          [index]="i"
+          (handleClick)="updateFavoriteList($event)"
+        ></app-track>
+      </li>
+    </ul>
+  </div>
+
+  <app-loader
+    class="loader"
+    *ngIf="(appFacade.isTopTracksLoading$ | async)"
+  ></app-loader>
+
 </div>

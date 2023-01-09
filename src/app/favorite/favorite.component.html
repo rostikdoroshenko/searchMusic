@@ -1,7 +1,7 @@
 <div class="favorite">
   <h2>Favorite Tracks</h2>
-  <div *ngIf="!isLoading; else loader">
-    <ul *ngIf="favoriteTracks$ | async as favoriteTracks; else nofavorite">
+  <div *ngIf="appFacade.loaded$ | async">
+    <ul *ngIf="appFacade.getFavoriteTracks$ | async as favoriteTracks; else emptyFavorite">
       <li *ngFor="let el of favoriteTracks; index as i">
         <app-track
           [track]="el"
@@ -10,13 +10,16 @@
         ></app-track>
       </li>
     </ul>
-    <ng-template #nofavorite>
+    <ng-template #emptyFavorite>
       <h2 class="no-favorite">
         Please add songs to favorite.
       </h2>
     </ng-template>
   </div>
-  <ng-template #loader>
-    <app-loader class="loader"></app-loader>
-  </ng-template>
+
+  <app-loader
+    *ngIf="appFacade.isFavoriteTracksLoading$ | async"
+    class="loader"
+  ></app-loader>
+
 </div>

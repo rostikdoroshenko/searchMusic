@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from "@angular/forms";
-import { Observable, Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
-import { FavoriteTracksService } from "../services/favorite-tracks.service";
-import { LastFmService } from '../services/lastFm.service';
+import { Observable } from "rxjs";
 import { Track } from "../interfaces/interface";
+import {actions} from "../store/actions";
+import {Store} from "@ngrx/store";
+import {AppFacade} from "../store/facade";
 
 @Component({
   selector: 'app-search',
@@ -12,29 +12,21 @@ import { Track } from "../interfaces/interface";
   styleUrls: ['./search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchComponent implements OnInit, OnDestroy {
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+export class SearchComponent implements OnInit {
   searchForm!: UntypedFormGroup;
-  isLoading: boolean = false;
   searchTracksList$!: Observable<Track[]>;
 
   constructor(
-    private lastFmService: LastFmService,
-    private cdr: ChangeDetectorRef,
-    private favoriteTracksService: FavoriteTracksService
-  ) { }
+    private store: Store,
+    public appFacade: AppFacade
+  ) { this.searchTracksList$ = this.appFacade.getSearchedTracks$ }
 
   ngOnInit(): void {
     this.initForm();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   updateFavoriteList(track: Track) {
-    this.favoriteTracksService.updateFavorites(track).pipe(takeUntil(this.destroy$)).subscribe();
+    this.store.dispatch(actions.updateFavorite({track}));
   }
 
   initForm() {
@@ -44,14 +36,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.isLoading = true;
-    const inputValue: string = this.searchForm.controls['searchControl'].value;
-    this.searchTracksList$ = this.lastFmService.getSearchedTracks(inputValue);
-    this.searchTracksList$.pipe(takeUntil(this.destroy$)).subscribe(
-      () => {
-        this.isLoading = false;
-        this.cdr.detectChanges();
-      }
-    );
+    const trackName: string = this.searchForm.controls['searchControl'].value;
+    this.store.dispatch(actions.loadSearchedTracks({trackName}));
   }
 }
